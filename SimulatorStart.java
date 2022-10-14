@@ -1,14 +1,11 @@
 package sim;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.JPanel;
 
-public class Simulator extends JPanel implements Runnable {
-	int width = 900;
-	int height = 325;
+public class SimulatorStart extends JPanel{
 	LongRectangle arrivalRectangle;
 	LongRectangle transmissionRectangle;
 	BufferSquare bufferSquare;
@@ -31,30 +28,16 @@ public class Simulator extends JPanel implements Runnable {
 	Image image;
 	Graphics graphics;
 	Thread gameT;
-	Dimension packetSimScreen = new Dimension(width,height);
 	
 	
-	public Simulator() {
+	public SimulatorStart() {
 		longRectangle();
 		queueRectangle();
 		bufferSquare();
 		packet();
 		this.setFocusable(true);
-		this.setPreferredSize(packetSimScreen);
-		gameT = new Thread(this);
-		gameT.start();
 	}
-	
 	public void packet() {
-		packet6 = new Packet(80,130,25,25,6);
-		packet5 = new Packet(80,130,25,25,5);
-		packet4 = new Packet(80,130,25,25,4);
-		packet3 = new Packet(80,130,25,25,3);
-		packet2 = new Packet(80,130,25,25,2);
-		packet1 = new Packet(80,130,25,25,1);
-		
-			
-			
 		
 	}
 	public void longRectangle() {
@@ -93,13 +76,7 @@ public class Simulator extends JPanel implements Runnable {
 		queueRectangle8.drawRectangle(g);
 		queueRectangle9.drawRectangle(g);
 		queueRectangle10.drawRectangle(g);
-		packet1.drawSquare(g);
-		packet2.drawSquare(g);
-		packet3.drawSquare(g);
-		packet4.drawSquare(g);
-		packet5.drawSquare(g);
-		packet6.drawSquare(g);
-
+	
 		
 	}
 	
@@ -170,47 +147,7 @@ public class Simulator extends JPanel implements Runnable {
 		}
 		
 		
-		if(packet1.x>=350 && packet1.x <= 585) {
-			packet1.packetId=0;
-	    }
-		else {
-			packet1.packetId=1;
-		}
 		
-		if(packet2.x>=350 && packet2.x <= 585) {
-			packet2.packetId=0;
-	    }
-		else {
-			packet2.packetId=2;
-		}
-		
-		if(packet3.x>=350 && packet3.x <= 585) {
-			packet3.packetId=0;
-	    }
-		else {
-			packet3.packetId=3;
-		}
-		
-		if(packet4.x>=350 && packet4.x <= 585) {
-			packet4.packetId=0;
-	    }
-		else {
-			packet4.packetId=4;
-		}
-		
-		if(packet5.x>=350 && packet5.x <= 585) {
-			packet5.packetId=0;
-	    }
-		else {
-			packet5.packetId=5;
-		}
-		
-		if(packet6.x>=350 && packet6.x <= 585) {
-			packet6.packetId=0;
-	    }
-		else {
-			packet6.packetId=6;
-		}
 		
 		
 		if(packet1.x >= 855) {
@@ -231,65 +168,5 @@ public class Simulator extends JPanel implements Runnable {
 		if(packet6.x >= 855) {
 			packet6.x = 80;
 		}
-	}
-	public void run() {
-		//I got this from stackExchage. It is supposed to be the game loop that MC uses. Idk how to do game loops so this was best I
-		// could do. This may be the weakest part, not sure. Here's a link to the post tho.
-		//https://gamedev.stackexchange.com/questions/52841/the-most-efficient-and-accurate-game-loop
-		long lastTime = System.nanoTime();
-		double amountOfTicks = 60.0;
-		double ns = 1000000000 / amountOfTicks;
-		double delta = 0;
-		while(true) {
-			long now = System.nanoTime();
-			delta += (now - lastTime)/ns;
-			lastTime = now;
-			if(delta >= 1) {
-				movePacket1Arrival();
-				checkCollision();
-				repaint();
-				delta--;
-				
-				if(packet1.x>=115) {
-					movePacket2Arrival();
-			}
-				if(packet2.x>=115) {
-					movePacket3Arrival();
-			}
-				if(packet3.x>=115) {
-					movePacket4Arrival();
-			}
-				if(packet4.x>=115) {
-					movePacket5Arrival();
-			}
-				if(packet5.x>=115) {
-					movePacket6Arrival();
-			}
-				
-				
-				if(packet1.x>=585) {
-					movePacket1Transmission();
-			}
-				if(packet2.x>=585) {
-					movePacket2Transmission();
-			}
-				if(packet3.x>=585) {
-					movePacket3Transmission();
-			}
-				if(packet4.x>=585) {
-					movePacket4Transmission();
-			}
-				if(packet5.x>=585) {
-					movePacket5Transmission();
-			}
-				if(packet6.x>=585) {
-					movePacket6Transmission();
-			}
-				
-				
-				
-	}
-}
-
 	}
 }
